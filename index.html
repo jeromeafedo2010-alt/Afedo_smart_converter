@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afedo Smart Converter</title><style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #f0f4f8;
+    color: #1f2937;
+}
+
+header {
+    text-align: center;
+    background: #123b70;
+    color: white;
+    padding: 25px 15px;
+    border-radius: 15px;
+}
+
+header h1 {
+    margin: 0 0 10px;
+}
+
+header p {
+    margin: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 25px auto;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+h2 {
+    color: #123b70;
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 7px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button {
+    background: #123b70;
+    color: white;
+    border: none;
+    font-weight: bold;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+button:active {
+    background: #2563eb;
+}
+
+.result {
+    background: #e0f2fe;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    overflow-wrap: anywhere;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    color: #64748b;
+    font-size: 14px;
+}
+</style></head><body><header>
+    <h1>Afedo Smart Converter</h1>
+    <p>Simple, fast and reliable conversions</p>
+</header><div class="container"><section class="card">
+    <h2>⚖️ Weight Converter</h2>
+
+    <label for="weight">Enter weight</label>
+    <input type="number" id="weight" placeholder="Enter a value">
+
+    <label for="weightFrom">Convert from</label>
+    <select id="weightFrom">
+        <option value="kg">Kilograms (kg)</option>
+        <option value="g">Grams (g)</option>
+        <option value="lb">Pounds (lb)</option>
+    </select>
+
+    <label for="weightTo">Convert to</label>
+    <select id="weightTo">
+        <option value="g">Grams (g)</option>
+        <option value="kg">Kilograms (kg)</option>
+        <option value="lb">Pounds (lb)</option>
+    </select>
+
+    <button onclick="convertWeight()">Convert Weight</button>
+    <div class="result" id="weightResult" aria-live="polite">
+        Your answer will appear here.
+    </div>
+</section>
+
+<section class="card">
+    <h2>🌡️ Temperature Converter</h2>
+
+    <label for="temperature">Enter temperature</label>
+    <input type="number" id="temperature" placeholder="Enter a value">
+
+    <label for="tempFrom">Convert from</label>
+    <select id="tempFrom">
+        <option value="C">Celsius (°C)</option>
+        <option value="F">Fahrenheit (°F)</option>
+        <option value="K">Kelvin (K)</option>
+    </select>
+
+    <label for="tempTo">Convert to</label>
+    <select id="tempTo">
+        <option value="F">Fahrenheit (°F)</option>
+        <option value="C">Celsius (°C)</option>
+        <option value="K">Kelvin (K)</option>
+    </select>
+
+    <button onclick="convertTemperature()">Convert Temperature</button>
+    <div class="result" id="tempResult" aria-live="polite">
+        Your answer will appear here.
+    </div>
+</section>
+
+</div><footer>
+    Created by Afedo Jerome | Afedo Smart Converter
+</footer><script>
+function convertWeight() {
+    const value = Number(document.getElementById("weight").value);
+    const from = document.getElementById("weightFrom").value;
+    const to = document.getElementById("weightTo").value;
+    const result = document.getElementById("weightResult");
+
+    if (document.getElementById("weight").value.trim() === "" ||
+        !Number.isFinite(value) || value < 0) {
+        result.textContent = "Please enter a valid, non-negative weight.";
+        return;
+    }
+
+    const toKg = {
+        kg: 1,
+        g: 0.001,
+        lb: 0.45359237
+    };
+
+    const answer = value * toKg[from] / toKg[to];
+
+    result.textContent =
+        `${value} ${from} = ${answer.toFixed(2)} ${to}`;
+}
+
+function convertTemperature() {
+    const input = document.getElementById("temperature");
+    const value = Number(input.value);
+    const from = document.getElementById("tempFrom").value;
+    const to = document.getElementById("tempTo").value;
+    const result = document.getElementById("tempResult");
+
+    if (input.value.trim() === "" || !Number.isFinite(value)) {
+        result.textContent = "Please enter a valid temperature.";
+        return;
+    }
+
+    let celsius;
+
+    if (from === "C") celsius = value;
+    else if (from === "F") celsius = (value - 32) * 5 / 9;
+    else celsius = value - 273.15;
+
+    if (celsius < -273.15) {
+        result.textContent =
+            "That temperature is below absolute zero.";
+        return;
+    }
+
+    let answer;
+
+    if (to === "C") answer = celsius;
+    else if (to === "F") answer = (celsius * 9 / 5) + 32;
+    else answer = celsius + 273.15;
+
+    result.textContent =
+        `${value} ${from} = ${answer.toFixed(2)} ${to}`;
+}
+</script></body>
+</html>
