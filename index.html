@@ -30,7 +30,7 @@
     .cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
     .card { padding:22px; border:1px solid var(--line); border-radius:22px; background:var(--panel); box-shadow:0 16px 42px rgba(5,7,48,.18); backdrop-filter:blur(12px); min-width:0; }
     .card h2 { margin:0 0 20px; font-size:1.25rem; display:flex; align-items:center; gap:10px; }
-    .icon { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; background:rgba(255,255,255,.18); font-size:1.35rem; }
+    .icon { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; background:rgba(255,255,255,.18); font-size:1.35rem; flex-shrink:0; }
     label { display:block; font-size:.9rem; font-weight:650; margin:13px 0 7px; }
     input, select { width:100%; min-width:0; padding:13px 12px; border-radius:11px; border:1px solid rgba(255,255,255,.34); background:rgba(8,19,80,.42); color:white; font:inherit; font-size:1rem; }
     select option { color:#10153b; background:white; }
@@ -66,7 +66,7 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">â–¦ Afedo <span>Smart Converter</span></div>
+    <div class="brand">ðŸ§® Afedo <span>Smart Converter</span></div>
     <nav aria-label="Main navigation">
       <a href="#home">Home</a><a href="#converters">Converters</a><a href="#about">About</a>
     </nav>
@@ -74,7 +74,7 @@
 
   <main id="home">
     <section class="hero">
-      <div class="badge">âœ¦ Simple tools. Smart results.</div>
+      <div class="badge">âœ¨ Simple tools. Smart results.</div>
       <h1>Afedo <span>Smart Converter</span></h1>
       <p>Convert weight and temperature units in seconds with a clean, easy-to-use tool that works on your phone, tablet, or computer.</p>
     </section>
@@ -92,7 +92,7 @@
             <select id="weightTo"><option value="g">Grams (g)</option><option value="kg">Kilograms (kg)</option><option value="lb">Pounds (lb)</option></select>
           </div>
         </div>
-        <button type="button" id="weightButton">â†» Convert Weight</button>
+        <button type="button" id="weightButton">ðŸ”„ Convert Weight</button>
         <div class="result" aria-live="polite"><small>Result</small><strong id="weightResult">5,000 g</strong></div>
         <p class="message" id="weightMessage" aria-live="polite"></p>
       </article>
@@ -109,7 +109,7 @@
             <select id="tempTo"><option value="F">Fahrenheit (Â°F)</option><option value="C">Celsius (Â°C)</option><option value="K">Kelvin (K)</option></select>
           </div>
         </div>
-        <button type="button" id="tempButton">â†» Convert Temperature</button>
+        <button type="button" id="tempButton">ðŸ”„ Convert Temperature</button>
         <div class="result" aria-live="polite"><small>Result</small><strong id="tempResult">32 Â°F</strong></div>
         <p class="message" id="tempMessage" aria-live="polite"></p>
       </article>
@@ -165,6 +165,13 @@
     }
 
     $('weightButton').addEventListener('click', convertWeight);
+    $('tempButton').addEventListener('click', convertTemperature);
+    convertWeight();
+    convertTemperature();
+  </script>
+</body>
+</html>
+ convertWeight);
     $('tempButton').addEventListener('click', convertTemperature);
     convertWeight();
     convertTemperature();
