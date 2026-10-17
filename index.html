@@ -1,211 +1,174 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Afedo Smart Converter</title><style>
-* {
-    box-sizing: border-box;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Afedo Smart Converter â€” a simple, free weight and temperature converter.">
+  <title>Afedo Smart Converter</title>
+  <style>
+    :root { --ink:#fff; --muted:#e4eaff; --panel:rgba(255,255,255,.13); --line:rgba(255,255,255,.32); }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh; color:var(--ink);
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:radial-gradient(circle at 12% 12%,#00b8ff 0,transparent 28%),
+                 radial-gradient(circle at 90% 18%,#d946ef 0,transparent 28%),
+                 linear-gradient(135deg,#0836bd 0%,#3520b8 48%,#6618a8 100%);
+    }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:18px clamp(16px,5vw,64px); border-bottom:1px solid rgba(255,255,255,.22); background:rgba(5,15,70,.18); }
+    .brand { font-weight:800; font-size:1.05rem; letter-spacing:.2px; }
+    .brand span { color:#78f3ff; }
+    nav { display:flex; gap:18px; flex-wrap:wrap; }
+    nav a { color:white; text-decoration:none; font-size:.92rem; opacity:.95; }
+    nav a:hover { text-decoration:underline; }
+    main { width:min(1050px,92%); margin:0 auto; padding:42px 0 28px; }
+    .hero { text-align:center; margin-bottom:30px; }
+    .badge { display:inline-block; padding:7px 13px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.12); border-radius:999px; font-size:.82rem; margin-bottom:14px; }
+    h1 { font-size:clamp(2rem,5vw,3.25rem); line-height:1.1; margin:0 0 12px; letter-spacing:-1.2px; }
+    h1 span { color:#78f3ff; }
+    .hero p { color:var(--muted); margin:0 auto; max-width:580px; line-height:1.6; }
+    .cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+    .card { padding:22px; border:1px solid var(--line); border-radius:22px; background:var(--panel); box-shadow:0 16px 42px rgba(5,7,48,.18); backdrop-filter:blur(12px); min-width:0; }
+    .card h2 { margin:0 0 20px; font-size:1.25rem; display:flex; align-items:center; gap:10px; }
+    .icon { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; background:rgba(255,255,255,.18); font-size:1.35rem; }
+    label { display:block; font-size:.9rem; font-weight:650; margin:13px 0 7px; }
+    input, select { width:100%; min-width:0; padding:13px 12px; border-radius:11px; border:1px solid rgba(255,255,255,.34); background:rgba(8,19,80,.42); color:white; font:inherit; font-size:1rem; }
+    select option { color:#10153b; background:white; }
+    input::placeholder { color:#d5dcff; }
+    input:focus, select:focus, button:focus-visible, a:focus-visible { outline:3px solid #78f3ff; outline-offset:2px; }
+    .fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    button { width:100%; min-height:48px; border:0; border-radius:13px; color:#fff; font:inherit; font-weight:800; margin-top:18px; cursor:pointer; background:linear-gradient(100deg,#1bd5ff,#7557ff 55%,#f04dd9); box-shadow:0 7px 20px rgba(0,0,0,.18); }
+    button:hover { filter:brightness(1.08); }
+    .result { margin-top:15px; padding:15px; border-radius:13px; background:rgba(4,13,66,.32); border:1px solid rgba(255,255,255,.17); }
+    .result small { display:block; color:#dce6ff; margin-bottom:5px; }
+    .result strong { display:block; font-size:1.35rem; overflow-wrap:anywhere; }
+    .message { min-height:1.3em; margin:9px 0 0; color:#fff0b5; font-size:.9rem; }
+    .features { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:28px 0; }
+    .feature { text-align:center; padding:15px 10px; border:1px solid rgba(255,255,255,.2); border-radius:16px; background:rgba(255,255,255,.08); }
+    .feature b { display:block; margin:7px 0 4px; }
+    .feature span { font-size:.84rem; color:var(--muted); }
+    footer { text-align:center; color:#e3e7ff; padding:22px 12px 28px; border-top:1px solid rgba(255,255,255,.2); font-size:.9rem; }
+    footer strong { color:#78f3ff; }
+    @media (max-width:700px) {
+      .topbar { align-items:flex-start; flex-direction:column; }
+      main { padding-top:30px; }
+      .cards { grid-template-columns:1fr; }
+      .features { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .card { padding:18px; }
+    }
+    @media (max-width:380px) { .fields { grid-template-columns:1fr; } h1 { letter-spacing:-.5px; } }
+    @media (prefers-reduced-motion: no-preference) {
+      .card { animation: rise .55s ease both; }
+      .card:nth-child(2) { animation-delay:.1s; }
+      @keyframes rise { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">â–¦ Afedo <span>Smart Converter</span></div>
+    <nav aria-label="Main navigation">
+      <a href="#home">Home</a><a href="#converters">Converters</a><a href="#about">About</a>
+    </nav>
+  </header>
 
-body {
-    margin: 0;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    background: #f0f4f8;
-    color: #1f2937;
-}
+  <main id="home">
+    <section class="hero">
+      <div class="badge">âœ¦ Simple tools. Smart results.</div>
+      <h1>Afedo <span>Smart Converter</span></h1>
+      <p>Convert weight and temperature units in seconds with a clean, easy-to-use tool that works on your phone, tablet, or computer.</p>
+    </section>
 
-header {
-    text-align: center;
-    background: #123b70;
-    color: white;
-    padding: 25px 15px;
-    border-radius: 15px;
-}
+    <section class="cards" id="converters" aria-label="Converters">
+      <article class="card">
+        <h2><span class="icon" aria-hidden="true">âš–ï¸</span> Weight Converter</h2>
+        <label for="weightValue">Value</label>
+        <input id="weightValue" type="number" inputmode="decimal" step="any" placeholder="Enter a weight" value="5">
+        <div class="fields">
+          <div><label for="weightFrom">From</label>
+            <select id="weightFrom"><option value="kg">Kilograms (kg)</option><option value="g">Grams (g)</option><option value="lb">Pounds (lb)</option></select>
+          </div>
+          <div><label for="weightTo">To</label>
+            <select id="weightTo"><option value="g">Grams (g)</option><option value="kg">Kilograms (kg)</option><option value="lb">Pounds (lb)</option></select>
+          </div>
+        </div>
+        <button type="button" id="weightButton">â†» Convert Weight</button>
+        <div class="result" aria-live="polite"><small>Result</small><strong id="weightResult">5,000 g</strong></div>
+        <p class="message" id="weightMessage" aria-live="polite"></p>
+      </article>
 
-header h1 {
-    margin: 0 0 10px;
-}
+      <article class="card">
+        <h2><span class="icon" aria-hidden="true">ðŸŒ¡ï¸</span> Temperature Converter</h2>
+        <label for="tempValue">Value</label>
+        <input id="tempValue" type="number" inputmode="decimal" step="any" placeholder="Enter a temperature" value="0">
+        <div class="fields">
+          <div><label for="tempFrom">From</label>
+            <select id="tempFrom"><option value="C">Celsius (Â°C)</option><option value="F">Fahrenheit (Â°F)</option><option value="K">Kelvin (K)</option></select>
+          </div>
+          <div><label for="tempTo">To</label>
+            <select id="tempTo"><option value="F">Fahrenheit (Â°F)</option><option value="C">Celsius (Â°C)</option><option value="K">Kelvin (K)</option></select>
+          </div>
+        </div>
+        <button type="button" id="tempButton">â†» Convert Temperature</button>
+        <div class="result" aria-live="polite"><small>Result</small><strong id="tempResult">32 Â°F</strong></div>
+        <p class="message" id="tempMessage" aria-live="polite"></p>
+      </article>
+    </section>
 
-header p {
-    margin: 0;
-}
+    <section class="features" id="about" aria-label="Features">
+      <div class="feature"><div aria-hidden="true">âš¡</div><b>Fast</b><span>Get results in seconds</span></div>
+      <div class="feature"><div aria-hidden="true">ðŸŽ¯</div><b>Accurate</b><span>Reliable calculations</span></div>
+      <div class="feature"><div aria-hidden="true">ðŸ“±</div><b>Easy to Use</b><span>Phone, tablet and desktop</span></div>
+      <div class="feature"><div aria-hidden="true">ðŸ’œ</div><b>Free</b><span>Free to use</span></div>
+    </section>
+  </main>
 
-.container {
-    max-width: 600px;
-    margin: 25px auto;
-}
+  <footer>
+    <strong>Afedo Smart Converter</strong><br>
+    Built by Afedo Jerome Â· Better tools. Smarter life.
+  </footer>
 
-.card {
-    background: white;
-    padding: 22px;
-    margin-bottom: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
+  <script>
+    const $ = id => document.getElementById(id);
+    const format = n => Number(n.toFixed(6)).toLocaleString(undefined, {maximumFractionDigits:6});
 
-h2 {
-    color: #123b70;
-    margin-top: 0;
-}
-
-label {
-    display: block;
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-input, select, button {
-    width: 100%;
-    padding: 13px;
-    margin-top: 7px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 16px;
-}
-
-button {
-    background: #123b70;
-    color: white;
-    border: none;
-    font-weight: bold;
-    margin-top: 20px;
-    cursor: pointer;
-}
-
-button:active {
-    background: #2563eb;
-}
-
-.result {
-    background: #e0f2fe;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 15px;
-    overflow-wrap: anywhere;
-    font-weight: bold;
-}
-
-footer {
-    text-align: center;
-    padding: 15px;
-    color: #64748b;
-    font-size: 14px;
-}
-</style></head><body><header>
-    <h1>Afedo Smart Converter</h1>
-    <p>Simple, fast and reliable conversions</p>
-</header><div class="container"><section class="card">
-    <h2>⚖️ Weight Converter</h2>
-
-    <label for="weight">Enter weight</label>
-    <input type="number" id="weight" placeholder="Enter a value">
-
-    <label for="weightFrom">Convert from</label>
-    <select id="weightFrom">
-        <option value="kg">Kilograms (kg)</option>
-        <option value="g">Grams (g)</option>
-        <option value="lb">Pounds (lb)</option>
-    </select>
-
-    <label for="weightTo">Convert to</label>
-    <select id="weightTo">
-        <option value="g">Grams (g)</option>
-        <option value="kg">Kilograms (kg)</option>
-        <option value="lb">Pounds (lb)</option>
-    </select>
-
-    <button onclick="convertWeight()">Convert Weight</button>
-    <div class="result" id="weightResult" aria-live="polite">
-        Your answer will appear here.
-    </div>
-</section>
-
-<section class="card">
-    <h2>🌡️ Temperature Converter</h2>
-
-    <label for="temperature">Enter temperature</label>
-    <input type="number" id="temperature" placeholder="Enter a value">
-
-    <label for="tempFrom">Convert from</label>
-    <select id="tempFrom">
-        <option value="C">Celsius (°C)</option>
-        <option value="F">Fahrenheit (°F)</option>
-        <option value="K">Kelvin (K)</option>
-    </select>
-
-    <label for="tempTo">Convert to</label>
-    <select id="tempTo">
-        <option value="F">Fahrenheit (°F)</option>
-        <option value="C">Celsius (°C)</option>
-        <option value="K">Kelvin (K)</option>
-    </select>
-
-    <button onclick="convertTemperature()">Convert Temperature</button>
-    <div class="result" id="tempResult" aria-live="polite">
-        Your answer will appear here.
-    </div>
-</section>
-
-</div><footer>
-    Created by Afedo Jerome | Afedo Smart Converter
-</footer><script>
-function convertWeight() {
-    const value = Number(document.getElementById("weight").value);
-    const from = document.getElementById("weightFrom").value;
-    const to = document.getElementById("weightTo").value;
-    const result = document.getElementById("weightResult");
-
-    if (document.getElementById("weight").value.trim() === "" ||
-        !Number.isFinite(value) || value < 0) {
-        result.textContent = "Please enter a valid, non-negative weight.";
-        return;
+    function convertWeight() {
+      const raw = $('weightValue').value;
+      const value = Number(raw);
+      const from = $('weightFrom').value;
+      const to = $('weightTo').value;
+      const message = $('weightMessage');
+      if (raw.trim() === '' || !Number.isFinite(value)) {
+        message.textContent = 'Please enter a valid weight.'; return;
+      }
+      if (value < 0) { message.textContent = 'Weight cannot be negative.'; return; }
+      const inKg = {kg:value, g:value/1000, lb:value/2.2046226218}[from];
+      const result = {kg:inKg, g:inKg*1000, lb:inKg*2.2046226218}[to];
+      $('weightResult').textContent = format(result) + ' ' + ({kg:'kg',g:'g',lb:'lb'}[to]);
+      message.textContent = '';
     }
 
-    const toKg = {
-        kg: 1,
-        g: 0.001,
-        lb: 0.45359237
-    };
-
-    const answer = value * toKg[from] / toKg[to];
-
-    result.textContent =
-        `${value} ${from} = ${answer.toFixed(2)} ${to}`;
-}
-
-function convertTemperature() {
-    const input = document.getElementById("temperature");
-    const value = Number(input.value);
-    const from = document.getElementById("tempFrom").value;
-    const to = document.getElementById("tempTo").value;
-    const result = document.getElementById("tempResult");
-
-    if (input.value.trim() === "" || !Number.isFinite(value)) {
-        result.textContent = "Please enter a valid temperature.";
-        return;
+    function convertTemperature() {
+      const raw = $('tempValue').value;
+      const value = Number(raw);
+      const from = $('tempFrom').value;
+      const to = $('tempTo').value;
+      const message = $('tempMessage');
+      if (raw.trim() === '' || !Number.isFinite(value)) {
+        message.textContent = 'Please enter a valid temperature.'; return;
+      }
+      const kelvin = from === 'C' ? value + 273.15 : from === 'F' ? (value - 32) * 5/9 + 273.15 : value;
+      if (kelvin < 0) { message.textContent = 'Temperature cannot be below absolute zero.'; return; }
+      const result = to === 'C' ? kelvin - 273.15 : to === 'F' ? (kelvin - 273.15) * 9/5 + 32 : kelvin;
+      $('tempResult').textContent = format(result) + ' ' + ({C:'Â°C',F:'Â°F',K:'K'}[to]);
+      message.textContent = '';
     }
 
-    let celsius;
-
-    if (from === "C") celsius = value;
-    else if (from === "F") celsius = (value - 32) * 5 / 9;
-    else celsius = value - 273.15;
-
-    if (celsius < -273.15) {
-        result.textContent =
-            "That temperature is below absolute zero.";
-        return;
-    }
-
-    let answer;
-
-    if (to === "C") answer = celsius;
-    else if (to === "F") answer = (celsius * 9 / 5) + 32;
-    else answer = celsius + 273.15;
-
-    result.textContent =
-        `${value} ${from} = ${answer.toFixed(2)} ${to}`;
-}
-</script></body>
-</html>
+    $('weightButton').addEventListener('click', convertWeight);
+    $('tempButton').addEventListener('click', convertTemperature);
+    convertWeight();
+    convertTemperature();
+  </script>
+</body>
+    </html>
+    
