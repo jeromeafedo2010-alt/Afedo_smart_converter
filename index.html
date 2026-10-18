@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Afedo Smart Converter â€” a simple, free weight and temperature converter.">
+  <meta name="description" content="Afedo Smart Converter - a simple, free weight and temperature converter.">
   <title>Afedo Smart Converter</title>
   <style>
     :root { --ink:#fff; --muted:#e4eaff; --panel:rgba(255,255,255,.13); --line:rgba(255,255,255,.32); }
@@ -65,7 +65,7 @@
   </style>
 </head>
 <body>
-  <header class="topbar"
+  <header class="topbar">
     <div class="brand">🧮 Afedo <span>Smart Converter</span></div>
     <nav aria-label="Main navigation">
       <a href="#home">Home</a><a href="#converters">Converters</a><a href="#about">About</a>
@@ -160,7 +160,7 @@
       const kelvin = from === 'C' ? value + 273.15 : from === 'F' ? (value - 32) * 5/9 + 273.15 : value;
       if (kelvin < 0) { message.textContent = 'Temperature cannot be below absolute zero.'; return; }
       const result = to === 'C' ? kelvin - 273.15 : to === 'F' ? (kelvin - 273.15) * 9/5 + 32 : kelvin;
-      $('tempResult').textContent = format(result) + ' ' + ({C:'Â°C',F:'Â°F',K:'K'}[to]);
+      $('tempResult').textContent = format(result) + ' ' + ({C:'°C',F:'°F',K:'K'}[to]);
       message.textContent = '';
     }
 
