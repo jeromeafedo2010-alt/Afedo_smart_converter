@@ -53,4 +53,61 @@
     convertWeight();convertTemperature();
   </script>
 </body>
+ <!-- Length Converter -->
+<section style="margin:25px auto; padding:20px; max-width:600px; border-radius:15px; background:var(--card-bg, #f3f4f6);">
+  <h2>📏 Length Converter</h2>
+
+  <input id="lengthValue" type="number" placeholder="Enter a value" style="width:100%; padding:12px; margin:8px 0;">
+
+  <select id="lengthFrom" style="width:100%; padding:12px; margin:8px 0;">
+    <option value="m">Meters</option>
+    <option value="km">Kilometers</option>
+    <option value="cm">Centimeters</option>
+    <option value="mm">Millimeters</option>
+    <option value="mi">Miles</option>
+    <option value="ft">Feet</option>
+    <option value="in">Inches</option>
+  </select>
+
+  <select id="lengthTo" style="width:100%; padding:12px; margin:8px 0;">
+    <option value="km">Kilometers</option>
+    <option value="m">Meters</option>
+    <option value="cm">Centimeters</option>
+    <option value="mm">Millimeters</option>
+    <option value="mi">Miles</option>
+    <option value="ft">Feet</option>
+    <option value="in">Inches</option>
+  </select>
+
+  <button onclick="convertLength()" style="padding:12px 20px; margin-top:8px; cursor:pointer;">Convert Length</button>
+
+  <h3 id="lengthResult" aria-live="polite">Your result will appear here.</h3>
+</section>
+
+<script>
+function convertLength() {
+  const value = parseFloat(document.getElementById("lengthValue").value);
+  const from = document.getElementById("lengthFrom").value;
+  const to = document.getElementById("lengthTo").value;
+  const result = document.getElementById("lengthResult");
+
+  if (document.getElementById("lengthValue").value.trim() === "" || !Number.isFinite(value)) {
+    result.textContent = "Please enter a valid number.";
+    return;
+  }
+
+  const meters = {
+    m: 1,
+    km: 1000,
+    cm: 0.01,
+    mm: 0.001,
+    mi: 1609.344,
+    ft: 0.3048,
+    in: 0.0254
+  };
+
+  const answer = value * meters[from] / meters[to];
+  result.textContent = `${value} ${from} = ${Number(answer.toPrecision(10))} ${to}`;
+}
+    </script> 
 </html>
