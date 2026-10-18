@@ -4,168 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Afedo Smart Converter - a simple, free weight and temperature converter.">
+  <meta name="theme-color" content="#3520b8">
   <title>Afedo Smart Converter</title>
   <style>
-    :root { --ink:#fff; --muted:#e4eaff; --panel:rgba(255,255,255,.13); --line:rgba(255,255,255,.32); }
-    * { box-sizing:border-box; }
-    body {
-      margin:0; min-height:100vh; color:var(--ink);
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:radial-gradient(circle at 12% 12%,#00b8ff 0,transparent 28%),
-                 radial-gradient(circle at 90% 18%,#d946ef 0,transparent 28%),
-                 linear-gradient(135deg,#0836bd 0%,#3520b8 48%,#6618a8 100%);
-    }
-    .topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:18px clamp(16px,5vw,64px); border-bottom:1px solid rgba(255,255,255,.22); background:rgba(5,15,70,.18); }
-    .brand { font-weight:800; font-size:1.05rem; letter-spacing:.2px; }
-    .brand span { color:#78f3ff; }
-    nav { display:flex; gap:18px; flex-wrap:wrap; }
-    nav a { color:white; text-decoration:none; font-size:.92rem; opacity:.95; }
-    nav a:hover { text-decoration:underline; }
-    main { width:min(1050px,92%); margin:0 auto; padding:42px 0 28px; }
-    .hero { text-align:center; margin-bottom:30px; }
-    .badge { display:inline-block; padding:7px 13px; border:1px solid rgba(255,255,255,.35); background:rgba(255,255,255,.12); border-radius:999px; font-size:.82rem; margin-bottom:14px; }
-    h1 { font-size:clamp(2rem,5vw,3.25rem); line-height:1.1; margin:0 0 12px; letter-spacing:-1.2px; }
-    h1 span { color:#78f3ff; }
-    .hero p { color:var(--muted); margin:0 auto; max-width:580px; line-height:1.6; }
-    .cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
-    .card { padding:22px; border:1px solid var(--line); border-radius:22px; background:var(--panel); box-shadow:0 16px 42px rgba(5,7,48,.18); backdrop-filter:blur(12px); min-width:0; }
-    .card h2 { margin:0 0 20px; font-size:1.25rem; display:flex; align-items:center; gap:10px; }
-    .icon { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; background:rgba(255,255,255,.18); font-size:1.35rem; flex-shrink:0; }
-    label { display:block; font-size:.9rem; font-weight:650; margin:13px 0 7px; }
-    input, select { width:100%; min-width:0; padding:13px 12px; border-radius:11px; border:1px solid rgba(255,255,255,.34); background:rgba(8,19,80,.42); color:white; font:inherit; font-size:1rem; }
-    select option { color:#10153b; background:white; }
-    input::placeholder { color:#d5dcff; }
-    input:focus, select:focus, button:focus-visible, a:focus-visible { outline:3px solid #78f3ff; outline-offset:2px; }
-    .fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    button { width:100%; min-height:48px; border:0; border-radius:13px; color:#fff; font:inherit; font-weight:800; margin-top:18px; cursor:pointer; background:linear-gradient(100deg,#1bd5ff,#7557ff 55%,#f04dd9); box-shadow:0 7px 20px rgba(0,0,0,.18); }
-    button:hover { filter:brightness(1.08); }
-    .result { margin-top:15px; padding:15px; border-radius:13px; background:rgba(4,13,66,.32); border:1px solid rgba(255,255,255,.17); }
-    .result small { display:block; color:#dce6ff; margin-bottom:5px; }
-    .result strong { display:block; font-size:1.35rem; overflow-wrap:anywhere; }
-    .message { min-height:1.3em; margin:9px 0 0; color:#fff0b5; font-size:.9rem; }
-    .features { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:28px 0; }
-    .feature { text-align:center; padding:15px 10px; border:1px solid rgba(255,255,255,.2); border-radius:16px; background:rgba(255,255,255,.08); }
-    .feature b { display:block; margin:7px 0 4px; }
-    .feature span { font-size:.84rem; color:var(--muted); }
-    footer { text-align:center; color:#e3e7ff; padding:22px 12px 28px; border-top:1px solid rgba(255,255,255,.2); font-size:.9rem; }
-    footer strong { color:#78f3ff; }
-    @media (max-width:700px) {
-      .topbar { align-items:flex-start; flex-direction:column; }
-      main { padding-top:30px; }
-      .cards { grid-template-columns:1fr; }
-      .features { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .card { padding:18px; }
-    }
-    @media (max-width:380px) { .fields { grid-template-columns:1fr; } h1 { letter-spacing:-.5px; } }
-    @media (prefers-reduced-motion: no-preference) {
-      .card { animation: rise .55s ease both; }
-      .card:nth-child(2) { animation-delay:.1s; }
-      @keyframes rise { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-    }
+    :root{color-scheme:dark;--ink:#fff;--muted:#e4eaff;--panel:rgba(255,255,255,.13);--line:rgba(255,255,255,.32);--field:rgba(8,19,80,.42);--result:rgba(4,13,66,.32);--accent:#78f3ff;--shadow:rgba(5,7,48,.22)}
+    body.light{color-scheme:light;--ink:#172044;--muted:#465276;--panel:rgba(255,255,255,.78);--line:rgba(57,61,130,.2);--field:rgba(255,255,255,.9);--result:rgba(232,237,255,.85);--accent:#3520b8;--shadow:rgba(27,35,95,.12)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 12% 12%,#00b8ff 0,transparent 28%),radial-gradient(circle at 90% 18%,#d946ef 0,transparent 28%),linear-gradient(135deg,#0836bd 0%,#3520b8 48%,#6618a8 100%);transition:color .25s ease}
+    body.light{background:radial-gradient(circle at 12% 12%,#b8f1ff 0,transparent 30%),radial-gradient(circle at 90% 18%,#f6c8ff 0,transparent 30%),linear-gradient(135deg,#edf5ff 0%,#f4efff 52%,#fff0fb 100%)}
+    button,input,select{font:inherit}button,select{cursor:pointer}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px clamp(16px,5vw,64px);border-bottom:1px solid var(--line);background:rgba(5,15,70,.16);backdrop-filter:blur(14px)}body.light .topbar{background:rgba(255,255,255,.4)}
+    .brand{font-weight:850;font-size:1.05rem;letter-spacing:.2px}.brand span,h1 span,footer strong{color:var(--accent)}nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap}nav a{color:var(--ink);text-decoration:none;font-size:.92rem;opacity:.95}nav a:hover{text-decoration:underline}
+    .theme-toggle{width:auto;min-height:40px;margin:0;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--ink);box-shadow:none;font-weight:700}
+    main{width:min(1050px,92%);margin:0 auto;padding:42px 0 28px}.hero{text-align:center;margin-bottom:30px}.badge{display:inline-block;padding:7px 13px;border:1px solid var(--line);background:var(--panel);border-radius:999px;font-size:.82rem;margin-bottom:14px}h1{font-size:clamp(2rem,5vw,3.25rem);line-height:1.1;margin:0 0 12px;letter-spacing:-1.2px}.hero p{color:var(--muted);margin:0 auto;max-width:610px;line-height:1.7}
+    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.card{padding:22px;border:1px solid var(--line);border-radius:22px;background:var(--panel);box-shadow:0 16px 42px var(--shadow);backdrop-filter:blur(12px);min-width:0;animation:rise .55s ease both}.card:nth-child(2){animation-delay:.1s}.card h2{margin:0 0 20px;font-size:1.25rem;display:flex;align-items:center;gap:10px}.icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.18);font-size:1.35rem;flex-shrink:0}
+    label{display:block;font-size:.9rem;font-weight:700;margin:13px 0 7px}input,select{width:100%;min-width:0;padding:13px 12px;border-radius:11px;border:1px solid var(--line);background:var(--field);color:var(--ink);font-size:1rem}select option{color:#10153b;background:white}input::placeholder{color:var(--muted);opacity:.85}input:focus,select:focus,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .button-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:stretch}.primary-button{width:100%;min-height:48px;border:0;border-radius:13px;color:#fff;font-weight:800;margin-top:18px;background:linear-gradient(100deg,#1bd5ff,#7557ff 55%,#f04dd9);box-shadow:0 7px 20px rgba(0,0,0,.18);transition:transform .18s ease,filter .18s ease}.primary-button:hover{filter:brightness(1.08);transform:translateY(-1px)}.swap-button{width:auto;min-width:54px;min-height:48px;padding:0 14px;margin-top:18px;border:1px solid var(--line);border-radius:13px;background:var(--panel);color:var(--ink);font-size:1.2rem}
+    .result{margin-top:15px;padding:15px;border-radius:13px;background:var(--result);border:1px solid var(--line)}.result small{display:block;color:var(--muted);margin-bottom:5px}.result strong{display:block;font-size:1.35rem;overflow-wrap:anywhere}.result-actions{display:flex;gap:8px;margin-top:12px}.copy-button{width:auto;min-height:36px;margin:0;padding:7px 11px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);font-size:.85rem;font-weight:700;box-shadow:none}.message{min-height:1.3em;margin:9px 0 0;color:#fff0b5;font-size:.9rem}body.light .message{color:#774400}
+    .features{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:28px 0}.feature{text-align:center;padding:15px 10px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.feature-icon{font-size:1.3rem}.feature b{display:block;margin:7px 0 4px}.feature span{font-size:.84rem;color:var(--muted)}.about-note{padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:var(--panel);color:var(--muted);line-height:1.7}.about-note h2{color:var(--ink);margin:0 0 7px;font-size:1.1rem}footer{text-align:center;color:var(--muted);padding:22px 12px 28px;border-top:1px solid var(--line);font-size:.9rem}
+    @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}@media(max-width:700px){.topbar{align-items:flex-start;flex-direction:column}nav{gap:12px}main{padding-top:30px}.cards{grid-template-columns:1fr}.features{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:18px}}@media(max-width:380px){.fields{grid-template-columns:1fr}h1{letter-spacing:-.5px}.brand{font-size:1rem}}
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="brand">🧮 Afedo <span>Smart Converter</span></div>
-    <nav aria-label="Main navigation">
-      <a href="#home">Home</a><a href="#converters">Converters</a><a href="#about">About</a>
-    </nav>
+    <nav aria-label="Main navigation"><a href="#home">Home</a><a href="#converters">Converters</a><a href="#about">About</a><button type="button" class="theme-toggle" id="themeToggle">🌙 Dark mode</button></nav>
   </header>
-
   <main id="home">
-    <section class="hero">
-      <div class="badge">✨ Simple tools. Smart results.</div>
-      <h1>Afedo <span>Smart Converter</span></h1>
-      <p>Convert weight and temperature units in seconds with a clean, easy-to-use tool that works on your phone, tablet, or computer.</p>
-    </section>
-
+    <section class="hero"><div class="badge">✨ Simple tools. Smart results.</div><h1>Afedo <span>Smart Converter</span></h1><p>Convert weight and temperature units in seconds with a clean, easy-to-use tool that works on your phone, tablet, or computer.</p></section>
     <section class="cards" id="converters" aria-label="Converters">
-      <article class="card">
-        <h2><span class="icon" aria-hidden="true">⚖️</span> Weight Converter</h2>
-        <label for="weightValue">Value</label>
-        <input id="weightValue" type="number" inputmode="decimal" step="any" placeholder="Enter a weight" value="5">
-        <div class="fields">
-          <div><label for="weightFrom">From</label>
-            <select id="weightFrom"><option value="kg">Kilograms (kg)</option><option value="g">Grams (g)</option><option value="lb">Pounds (lb)</option></select>
-          </div>
-          <div><label for="weightTo">To</label>
-            <select id="weightTo"><option value="g">Grams (g)</option><option value="kg">Kilograms (kg)</option><option value="lb">Pounds (lb)</option></select>
-          </div>
-        </div>
-        <button type="button" id="weightButton">🔄 Convert Weight</button>
-        <div class="result" aria-live="polite"><small>Result</small><strong id="weightResult">5,000 g</strong></div>
-        <p class="message" id="weightMessage" aria-live="polite"></p>
-      </article>
-
-      <article class="card">
-        <h2><span class="icon" aria-hidden="true">🌡️</span> Temperature Converter</h2>
-        <label for="tempValue">Value</label>
-        <input id="tempValue" type="number" inputmode="decimal" step="any" placeholder="Enter a temperature" value="0">
-        <div class="fields">
-          <div><label for="tempFrom">From</label>
-            <select id="tempFrom"><option value="C">Celsius (°C)</option><option value="F">Fahrenheit (°F)</option><option value="K">Kelvin (K)</option></select>
-          </div>
-          <div><label for="tempTo">To</label>
-            <select id="tempTo"><option value="F">Fahrenheit (°F)</option><option value="C">Celsius (°C)</option><option value="K">Kelvin (K)</option></select>
-          </div>
-        </div>
-        <button type="button" id="tempButton">🔄 Convert Temperature</button>
-        <div class="result" aria-live="polite"><small>Result</small><strong id="tempResult">32</strong></div>
-        <p class="message" id="tempMessage" aria-live="polite"></p>
-      </article>
+      <article class="card"><h2><span class="icon" aria-hidden="true">⚖️</span> Weight Converter</h2><label for="weightValue">Value</label><input id="weightValue" type="number" inputmode="decimal" step="any" placeholder="Enter a weight" value="5"><div class="fields"><div><label for="weightFrom">From</label><select id="weightFrom"><option value="kg">Kilograms (kg)</option><option value="g">Grams (g)</option><option value="lb">Pounds (lb)</option></select></div><div><label for="weightTo">To</label><select id="weightTo"><option value="g">Grams (g)</option><option value="kg">Kilograms (kg)</option><option value="lb">Pounds (lb)</option></select></div></div><div class="button-row"><button type="button" class="primary-button" id="weightButton">🔄 Convert Weight</button><button type="button" class="swap-button" id="weightSwap" aria-label="Swap weight units" title="Swap units">⇄</button></div><div class="result" aria-live="polite"><small>Result</small><strong id="weightResult">5,000 g</strong><div class="result-actions"><button type="button" class="copy-button" id="copyWeight">📋 Copy result</button></div></div><p class="message" id="weightMessage" aria-live="polite"></p></article>
+      <article class="card"><h2><span class="icon" aria-hidden="true">🌡️</span> Temperature Converter</h2><label for="tempValue">Value</label><input id="tempValue" type="number" inputmode="decimal" step="any" placeholder="Enter a temperature" value="0"><div class="fields"><div><label for="tempFrom">From</label><select id="tempFrom"><option value="C">Celsius (°C)</option><option value="F">Fahrenheit (°F)</option><option value="K">Kelvin (K)</option></select></div><div><label for="tempTo">To</label><select id="tempTo"><option value="F">Fahrenheit (°F)</option><option value="C">Celsius (°C)</option><option value="K">Kelvin (K)</option></select></div></div><div class="button-row"><button type="button" class="primary-button" id="tempButton">🔄 Convert Temperature</button><button type="button" class="swap-button" id="tempSwap" aria-label="Swap temperature units" title="Swap units">⇄</button></div><div class="result" aria-live="polite"><small>Result</small><strong id="tempResult">32 °F</strong><div class="result-actions"><button type="button" class="copy-button" id="copyTemp">📋 Copy result</button></div></div><p class="message" id="tempMessage" aria-live="polite"></p></article>
     </section>
-
-    <section class="features" id="about" aria-label="Features">
-      <div class="feature"><div aria-hidden="true">⚡</div><b>Fast</b><span>Get results in seconds</span></div>
-      <div class="feature"><div aria-hidden="true">🎯</div><b>Accurate</b><span>Reliable calculations</span></div>
-      <div class="feature"><div aria-hidden="true">📱</div><b>Easy to Use</b><span>Phone, tablet and desktop</span></div>
-      <div class="feature"><div aria-hidden="true">💜</div><b>Free</b><span>Free to use</span></div>
-    </section>
+    <section class="features" aria-label="Features"><div class="feature"><div class="feature-icon" aria-hidden="true">⚡</div><b>Fast</b><span>Get results in seconds</span></div><div class="feature"><div class="feature-icon" aria-hidden="true">🎯</div><b>Accurate</b><span>Reliable calculations</span></div><div class="feature"><div class="feature-icon" aria-hidden="true">📱</div><b>Responsive</b><span>Phone, tablet and desktop</span></div><div class="feature"><div class="feature-icon" aria-hidden="true">💜</div><b>Free</b><span>Free to use</span></div></section>
+    <section class="about-note" id="about"><h2>About Afedo Smart Converter</h2><p>This free tool makes common weight and temperature conversions quick and simple. Choose your units, enter a value, and convert. Use the theme button to switch between light and dark mode.</p></section>
   </main>
-
-  <footer>
-    <strong>Afedo Smart Converter</strong><br>
-    Built by Afedo Jerome · Better tools. Smarter life.
-  </footer>
-
+  <footer><strong>Afedo Smart Converter</strong><br>Built by Afedo Jerome · Better tools. Smarter life.</footer>
   <script>
     const $ = id => document.getElementById(id);
-    const format = n => Number(n.toFixed(6)).toLocaleString(undefined, {maximumFractionDigits:6});
-
-    function convertWeight() {
-      const raw = $('weightValue').value;
-      const value = Number(raw);
-      const from = $('weightFrom').value;
-      const to = $('weightTo').value;
-      const message = $('weightMessage');
-      if (raw.trim() === '' || !Number.isFinite(value)) {
-        message.textContent = 'Please enter a valid weight.'; return;
-      }
-      if (value < 0) { message.textContent = 'Weight cannot be negative.'; return; }
-      const inKg = {kg:value, g:value/1000, lb:value/2.2046226218}[from];
-      const result = {kg:inKg, g:inKg*1000, lb:inKg*2.2046226218}[to];
-      $('weightResult').textContent = format(result) + ' ' + ({kg:'kg',g:'g',lb:'lb'}[to]);
-      message.textContent = '';
-    }
-
-    function convertTemperature() {
-      const raw = $('tempValue').value;
-      const value = Number(raw);
-      const from = $('tempFrom').value;
-      const to = $('tempTo').value;
-      const message = $('tempMessage');
-      if (raw.trim() === '' || !Number.isFinite(value)) {
-        message.textContent = 'Please enter a valid temperature.'; return;
-      }
-      const kelvin = from === 'C' ? value + 273.15 : from === 'F' ? (value - 32) * 5/9 + 273.15 : value;
-      if (kelvin < 0) { message.textContent = 'Temperature cannot be below absolute zero.'; return; }
-      const result = to === 'C' ? kelvin - 273.15 : to === 'F' ? (kelvin - 273.15) * 9/5 + 32 : kelvin;
-      $('tempResult').textContent = format(result) + ' ' + ({C:'°C',F:'°F',K:'K'}[to]);
-      message.textContent = '';
-    }
-
-    $('weightButton').addEventListener('click', convertWeight);
-    $('tempButton').addEventListener('click', convertTemperature);
+    const format = n => Number(n.toFixed(6)).toLocaleString(undefined,{maximumFractionDigits:6});
+    function convertWeight(){const raw=$('weightValue').value,value=Number(raw),from=$('weightFrom').value,to=$('weightTo').value,message=$('weightMessage');if(raw.trim()===''||!Number.isFinite(value)){message.textContent='Please enter a valid weight.';return}if(value<0){message.textContent='Weight cannot be negative.';return}const inKg={kg:value,g:value/1000,lb:value/2.2046226218}[from];const result={kg:inKg,g:inKg*1000,lb:inKg*2.2046226218}[to];$('weightResult').textContent=format(result)+' '+({kg:'kg',g:'g',lb:'lb'}[to]);message.textContent=''}
+    function convertTemperature(){const raw=$('tempValue').value,value=Number(raw),from=$('tempFrom').value,to=$('tempTo').value,message=$('tempMessage');if(raw.trim()===''||!Number.isFinite(value)){message.textContent='Please enter a valid temperature.';return}const kelvin=from==='C'?value+273.15:from==='F'?(value-32)*5/9+273.15:value;if(kelvin<0){message.textContent='Temperature cannot be below absolute zero.';return}const result=to==='C'?kelvin-273.15:to==='F'?(kelvin-273.15)*9/5+32:kelvin;$('tempResult').textContent=format(result)+' '+({C:'°C',F:'°F',K:'K'}[to]);message.textContent=''}
+    function swapUnits(fromId,toId,convertFunction){const from=$(fromId),to=$(toId),oldFrom=from.value;from.value=to.value;to.value=oldFrom;convertFunction()}
+    async function copyResult(resultId,messageId){const textToCopy=$(resultId).textContent,message=$(messageId);try{await navigator.clipboard.writeText(textToCopy);message.textContent='Result copied!'}catch(error){message.textContent='Copy is not available in this browser. Please select and copy the result manually.'}}
+    $('weightButton').addEventListener('click',convertWeight);$('tempButton').addEventListener('click',convertTemperature);$('weightSwap').addEventListener('click',()=>swapUnits('weightFrom','weightTo',convertWeight));$('tempSwap').addEventListener('click',()=>swapUnits('tempFrom','tempTo',convertTemperature));$('copyWeight').addEventListener('click',()=>copyResult('weightResult','weightMessage'));$('copyTemp').addEventListener('click',()=>copyResult('tempResult','tempMessage'));
+    $('weightValue').addEventListener('input',convertWeight);$('weightFrom').addEventListener('change',convertWeight);$('weightTo').addEventListener('change',convertWeight);$('tempValue').addEventListener('input',convertTemperature);$('tempFrom').addEventListener('change',convertTemperature);$('tempTo').addEventListener('change',convertTemperature);
+    const themeToggle=$('themeToggle');themeToggle.addEventListener('click',()=>{const isLight=document.body.classList.toggle('light');themeToggle.textContent=isLight?'☀️ Light mode':'🌙 Dark mode';try{localStorage.setItem('afedoTheme',isLight?'light':'dark')}catch(error){}});
+    try{if(localStorage.getItem('afedoTheme')==='light'){document.body.classList.add('light');themeToggle.textContent='☀️ Light mode'}}catch(error){}
+    convertWeight();convertTemperature();
+  </script>
+</body>
+</html>
+  $('tempButton').addEventListener('click', convertTemperature);
     convertWeight();
     convertTemperature();
   </script>
